@@ -16,10 +16,24 @@ const TankDiagram = () => {
     setIsSimulating(true);
     toast.info("Simulating tank filling...");
     
-    setTimeout(() => {
+    setTimeout(async () => {
       setFillPercentage(80);
       setIsSimulating(false);
       toast.success("Tank level is now high");
+      
+      // Send notification when tank level becomes high
+      try {
+        await publishTankStatus({
+          device: "tank_001",
+          timestamp: new Date().toISOString(),
+          level: "high",
+          message: "Liquid level above threshold"
+        });
+        toast.info("High level notification sent");
+      } catch (error) {
+        toast.error("Failed to send tank status notification");
+        console.error(error);
+      }
     }, 3000);
   };
 
