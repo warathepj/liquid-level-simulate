@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Tank from './Tank';
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const TankDiagram = () => {
   const [fillPercentage, setFillPercentage] = useState(80);
