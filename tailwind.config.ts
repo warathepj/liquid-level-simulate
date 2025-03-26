@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				tank: {
+					blue: '#4299e1',
+					lowLevel: '#f56565',
+					mediumLevel: '#4299e1',
+					highLevel: '#38a169',
+					structure: '#e5e7eb',
+					sensor: '#805ad5',
+					metallic: '#a0aec0'
 				}
 			},
 			borderRadius: {
@@ -84,11 +94,97 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fill-tank': {
+					'0%': { 
+						height: '10%',
+						backgroundColor: '#f56565' 
+					},
+					'50%': { 
+						height: '50%',
+						backgroundColor: '#4299e1' 
+					},
+					'100%': { 
+						height: '80%',
+						backgroundColor: '#38a169' 
+					}
+				},
+				'empty-tank': {
+					'0%': { 
+						height: '80%',
+						backgroundColor: '#38a169' 
+					},
+					'50%': { 
+						height: '50%',
+						backgroundColor: '#4299e1' 
+					},
+					'100%': { 
+						height: '10%',
+						backgroundColor: '#f56565' 
+					}
+				},
+				'pulse-dot': {
+					'0%': {
+						transform: 'scale(0.95)',
+						boxShadow: '0 0 0 0 rgba(128, 90, 213, 0.7)'
+					},
+					'70%': {
+						transform: 'scale(1)',
+						boxShadow: '0 0 0 10px rgba(128, 90, 213, 0)'
+					},
+					'100%': {
+						transform: 'scale(0.95)',
+						boxShadow: '0 0 0 0 rgba(128, 90, 213, 0)'
+					}
+				},
+				'data-transfer': {
+					'0%': {
+						transform: 'translateY(0)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translateY(-20px)',
+						opacity: '0'
+					}
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0'
+					},
+					'100%': {
+						opacity: '1'
+					}
+				},
+				float: {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-5px)'
+					}
+				},
+				'scale-up': {
+					'0%': {
+						transform: 'scale(0)'
+					},
+					'100%': {
+						transform: 'scale(1)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fill-tank': 'fill-tank 3s ease-in-out forwards',
+				'empty-tank': 'empty-tank 3s ease-in-out forwards',
+				'pulse-dot': 'pulse-dot 1.5s infinite',
+				'data-transfer': 'data-transfer 2s infinite',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'float': 'float 3s ease-in-out infinite',
+				'scale-up': 'scale-up 0.3s ease-out forwards'
 			}
 		}
 	},
