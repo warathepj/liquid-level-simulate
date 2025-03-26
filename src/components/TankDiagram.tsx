@@ -4,6 +4,7 @@ import Tank from './Tank';
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import { publishTankStatus } from '@/lib/api';
 
 const TankDiagram = () => {
   const [fillPercentage, setFillPercentage] = useState(80);
@@ -28,10 +29,24 @@ const TankDiagram = () => {
     setIsSimulating(true);
     toast.info("Simulating tank emptying...");
     
-    setTimeout(() => {
+    setTimeout(async () => {
       setFillPercentage(10);
       setIsSimulating(false);
       toast.success("Tank level is now low");
+      
+      // Send notification when tank level becomes low
+      try {
+        await publishTankStatus({
+          device: "tank_001", // Updated to match the required device ID
+          timestamp: new Date().toISOString(),
+          level: "low",
+          message: "Liquid level below threshold"
+        });
+        toast.info("Tank status notification sent");
+      } catch (error) {
+        toast.error("Failed to send tank status notification");
+        console.error(error);
+      }
     }, 3000);
   };
 
