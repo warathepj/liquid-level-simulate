@@ -1,19 +1,17 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Cylinder, ArrowUp, Wifi, Database, Circle } from 'lucide-react';
+import { Cylinder, Wifi, Database, Circle } from 'lucide-react';
 
 interface TankProps {
   percentage: number;
   height?: number;
   width?: number;
-  onAnimation?: () => void;
   className?: string;
 }
 
-const Tank = ({ percentage, height = 350, width = 200, onAnimation, className }: TankProps) => {
+const Tank = ({ percentage, height = 350, width = 200, className }: TankProps) => {
   const tankRef = useRef<HTMLDivElement>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [dimensions] = useState({ height, width });
   
   const getLiquidColor = (percentage: number) => {
@@ -27,12 +25,6 @@ const Tank = ({ percentage, height = 350, width = 200, onAnimation, className }:
     if (percentage < 70) return 'Medium';
     return 'High';
   };
-
-  useEffect(() => {
-    if (isAnimating && onAnimation) {
-      onAnimation();
-    }
-  }, [isAnimating, onAnimation]);
 
   return (
     <div ref={tankRef} className={cn("relative flex flex-col items-center", className)}>
@@ -58,10 +50,9 @@ const Tank = ({ percentage, height = 350, width = 200, onAnimation, className }:
             className={cn(
               "liquid absolute bottom-0 w-full rounded-b-3xl transition-all duration-1000", 
               getLiquidColor(percentage),
-              { "animate-empty-tank": isAnimating && percentage < 30, "animate-fill-tank": isAnimating && percentage > 70 }
+              { "animate-empty-tank": percentage < 30, "animate-fill-tank": percentage > 70 }
             )}
             style={{ height: `${percentage}%` }}
-            onAnimationEnd={() => setIsAnimating(false)}
           />
           
           {/* Measurement Lines */}
@@ -163,16 +154,6 @@ const Tank = ({ percentage, height = 350, width = 200, onAnimation, className }:
           </div>
         </div>
       </div>
-      
-      {/* Animation Button */}
-      <button
-        className="mt-12 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 animate-fade-in"
-        onClick={() => setIsAnimating(true)}
-        disabled={isAnimating}
-      >
-        <ArrowUp className="h-4 w-4" />
-        <span>Simulate Level Change</span>
-      </button>
     </div>
   );
 };

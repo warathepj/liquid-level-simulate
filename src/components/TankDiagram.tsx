@@ -2,30 +2,37 @@
 import React, { useState, useEffect } from 'react';
 import Tank from './Tank';
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { ArrowDown, ArrowUp } from "lucide-react";
 
 const TankDiagram = () => {
   const [fillPercentage, setFillPercentage] = useState(80);
   const [isSimulating, setIsSimulating] = useState(false);
 
-  const handleAnimation = () => {
-    setIsSimulating(true);
+  const handleFill = () => {
+    if (isSimulating || fillPercentage >= 80) return;
     
-    // Toggle between high and low
-    if (fillPercentage >= 70) {
-      toast.info("Simulating tank emptying...");
-      setTimeout(() => {
-        setFillPercentage(10);
-        setIsSimulating(false);
-        toast.success("Tank level is now low");
-      }, 3000);
-    } else {
-      toast.info("Simulating tank filling...");
-      setTimeout(() => {
-        setFillPercentage(80);
-        setIsSimulating(false);
-        toast.success("Tank level is now high");
-      }, 3000);
-    }
+    setIsSimulating(true);
+    toast.info("Simulating tank filling...");
+    
+    setTimeout(() => {
+      setFillPercentage(80);
+      setIsSimulating(false);
+      toast.success("Tank level is now high");
+    }, 3000);
+  };
+
+  const handleEmpty = () => {
+    if (isSimulating || fillPercentage <= 10) return;
+    
+    setIsSimulating(true);
+    toast.info("Simulating tank emptying...");
+    
+    setTimeout(() => {
+      setFillPercentage(10);
+      setIsSimulating(false);
+      toast.success("Tank level is now low");
+    }, 3000);
   };
 
   return (
@@ -42,9 +49,30 @@ const TankDiagram = () => {
         <div className="relative flex flex-col items-center justify-center min-h-[500px]">
           <Tank 
             percentage={fillPercentage} 
-            onAnimation={handleAnimation}
             className="my-16"
           />
+          
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <Button
+              variant="default"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+              onClick={handleFill}
+              disabled={isSimulating || fillPercentage >= 80}
+            >
+              <ArrowUp className="h-4 w-4 mr-2" />
+              <span>Fill Tank</span>
+            </Button>
+            
+            <Button
+              variant="destructive"
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+              onClick={handleEmpty}
+              disabled={isSimulating || fillPercentage <= 10}
+            >
+              <ArrowDown className="h-4 w-4 mr-2" />
+              <span>Empty Tank</span>
+            </Button>
+          </div>
           
           <div className="absolute bottom-0 right-4 text-xs text-gray-400">
             All measurements in cm/L
