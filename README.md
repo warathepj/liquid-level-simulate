@@ -1,69 +1,128 @@
-# Welcome to your Lovable project
+# Liquid Level Simulation System
 
-## Project info
+A real-time tank monitoring simulation system built with React, TypeScript, and modern web technologies. This project demonstrates a storage tank monitoring system with IoT sensor simulation and real-time notifications.
 
-**URL**: https://lovable.dev/projects/ec7aa52a-1af2-4405-9b1c-1fbfce850feb
+## Features
 
-## How can I edit this code?
+- Interactive tank level visualization
+- Real-time level monitoring simulation
+- Automated notifications for high/low levels
+- Responsive design with smooth animations
+- MQTT integration for status updates
+- Automated notifications via n8n webhook to Telegram
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ec7aa52a-1af2-4405-9b1c-1fbfce850feb) and start prompting.
+  - React 18
+  - TypeScript
+  - Vite
+  - Tailwind CSS
+  - shadcn/ui components
+  - React Query
+  - React Router
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Backend**
+  - Node.js
+  - Express
+  - MQTT
+  - WebSocket
+  - n8n (for workflow automation)
+  - Telegram Bot API (for notifications)
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js (Latest LTS version recommended)
+- npm or yarn package manager
+- n8n instance
+- Telegram Bot Token
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Clone the repository:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```bash
+# Backend
+git clone https://github.com/warathepj/n8n-tank-level-backend.git
+cd n8n-tank-level-backend
+# Frontend
+git clone https://github.com/warathepj/liquid-level-simulate.git
+cd liquid-level-simulate
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2. Install frontend dependencies:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
+```
+
+3. Install backend dependencies:
+
+```bash
+npm install
+```
+
+### Configuration
+
+1. Set up n8n webhook:
+
+   - Create a new workflow in n8n
+   - Add a Webhook node as trigger
+   - Configure Telegram node with your bot token
+   - Deploy the workflow and copy the webhook URL
+
+2. Configure webhook URL:
+   - Open `backend/subscriber.js`
+   - Replace `your-webhook-url` with the n8n webhook URL
+
+### Development
+
+1. Start the frontend development server:
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+2. Start the backend server (from the backend directory):
 
-**Use GitHub Codespaces**
+```bash
+node publisher.js
+node subscriber.js
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+liquid-level-simulate/
+├── src/
+│   ├── components/     # React components
+│   ├── pages/         # Route pages
+│   ├── hooks/         # Custom React hooks
+│   └── lib/           # Utility functions
+├── backend/           # Backend server
+│   ├── subscriber.js  # MQTT subscriber with webhook integration
+│   └── publisher.js   # MQTT publisher
+```
 
-This project is built with .
+## Notification Flow
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Tank level changes trigger MQTT messages
+2. Subscriber receives MQTT messages
+3. Webhook sends data to n8n workflow
+4. n8n processes the data and sends to Telegram
+5. Users receive notifications in Telegram
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/ec7aa52a-1af2-4405-9b1c-1fbfce850feb) and click on Share -> Publish.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## I want to use a custom domain - is that possible?
+## Acknowledgments
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+- UI components from [shadcn/ui](https://ui.shadcn.com)
+- Icons from [Lucide](https://lucide.dev)
+- Workflow automation by [n8n](https://n8n.io)
